@@ -1,17 +1,17 @@
 plugins {
-    id("net.fabricmc.fabric-loom-remap")
+    id("fabric-loom")
 
     // `maven-publish`
     // id("me.modmuss50.mod-publish-plugin")
 }
 
-version = "${property("mod.version")}+${sc.current.version}"
+version = "${property("mod.version")}+${stonecutter.current.version}"
 base.archivesName = property("mod.id") as String
 
 val requiredJava = when {
-    sc.current.parsed >= "1.20.6" -> JavaVersion.VERSION_21
-    sc.current.parsed >= "1.18" -> JavaVersion.VERSION_17
-    sc.current.parsed >= "1.17" -> JavaVersion.VERSION_16
+    stonecutter.eval(stonecutter.current.version, ">=1.20.6") -> JavaVersion.VERSION_21
+    stonecutter.eval(stonecutter.current.version, ">=1.18") -> JavaVersion.VERSION_17
+    stonecutter.eval(stonecutter.current.version, ">=1.17") -> JavaVersion.VERSION_16
     else -> JavaVersion.VERSION_1_8
 }
 
@@ -26,6 +26,18 @@ repositories {
     }
     strictMaven("https://www.cursemaven.com", "CurseForge", "curse.maven")
     strictMaven("https://api.modrinth.com/maven", "Modrinth", "maven.modrinth")
+
+    mavenCentral()
+
+    // YACL
+    maven("https://maven.isxander.dev/releases") {
+        name = "Xander Maven"
+    }
+
+    // Mod Menu
+    maven("https://maven.terraformersmc.com/") {
+        name = "Terraformers"
+    }
 }
 
 dependencies {
@@ -37,9 +49,12 @@ dependencies {
         for (it in modules) modImplementation(fabricApi.module(it, property("deps.fabric_api") as String))
     }
 
-    minecraft("com.mojang:minecraft:${sc.current.version}")
-    mappings(loom.officialMojangMappings())
+    minecraft("com.mojang:minecraft:${stonecutter.current.version}")
+    mappings("net.fabricmc:yarn:${property("deps.yarn")}:v2")
     modImplementation("net.fabricmc:fabric-loader:${property("deps.fabric_loader")}")
+
+    modImplementation("dev.isxander:yet-another-config-lib:${property("deps.yacl")}")
+    modImplementation("com.terraformersmc:modmenu:${property("deps.modmenu")}")
 
     fapi("fabric-lifecycle-events-v1", "fabric-resource-loader-v0", "fabric-content-registries-v0")
 }
@@ -128,7 +143,7 @@ publishMods {
 }
  */
 /*
-// Publishes builds to a maven repository under `com.cat:tsunderify:0.1.0+mc`
+// Publishes builds to a maven repository under `com.example:template:0.1.0+mc`
 publishing {
     repositories {
         maven("https://maven.example.com/releases") {
