@@ -1,7 +1,6 @@
 package com.example;
 
 import net.fabricmc.api.ModInitializer;
-import net.minecraft.resources.Identifier;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -26,15 +25,5 @@ public class TemplateMod implements ModInitializer {
 
         //? if fapi: <0.100
         /*LOGGER.info("Fabric API is old on this version");*/
-    }
-
-    /**
-     * Adapts to the ResourceLocation/Identifier changes introduced in 1.21.
-     */
-    public static Identifier id(String namespace, String path) {
-        //? if <1.21 {
-        /*return new ResourceLocation(namespace, path);
-        *///?} else
-        return Identifier.fromNamespaceAndPath(namespace, path);
     }
 }
