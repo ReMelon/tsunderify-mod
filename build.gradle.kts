@@ -1,5 +1,5 @@
 plugins {
-    id("fabric-loom")
+    id("net.fabricmc.fabric-loom-remap")
 
     // `maven-publish`
     // id("me.modmuss50.mod-publish-plugin")
@@ -46,7 +46,7 @@ dependencies {
 
 loom {
     fabricModJsonPath = rootProject.file("src/main/resources/fabric.mod.json") // Useful for interface injection
-    accessWidenerPath = rootProject.file("src/main/resources/template.accesswidener")
+    accessWidenerPath = rootProject.file("src/main/resources/tsunderify.accesswidener")
 
     decompilerOptions.named("vineflower") {
         options.put("mark-corresponding-synthetics", "1") // Adds names to lambdas - useful for mixins
@@ -128,7 +128,7 @@ publishMods {
 }
  */
 /*
-// Publishes builds to a maven repository under `com.example:template:0.1.0+mc`
+// Publishes builds to a maven repository under `com.cat:tsunderify:0.1.0+mc`
 publishing {
     repositories {
         maven("https://maven.example.com/releases") {
