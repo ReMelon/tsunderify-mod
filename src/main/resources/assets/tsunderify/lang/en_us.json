@@ -6,6 +6,11 @@
   "yacl3.config.tsunderify:config.category.tsunderify": "Tsunderify Config",
   "yacl3.config.tsunderify:config.category.tsunderify.group.transformer": "Text Transformation",
 
+  "yacl3.config.tsunderify:config.modEnabled": "Mod Enabled",
+
+  "yacl3.config.tsunderify:config.swearReplacement": "Replace Swears",
+  "yacl3.config.tsunderify:config.swearReplacement.desc": "Mod Enabled",
+
   "yacl3.config.tsunderify:config.suffixChance": "Suffix Chance (%)",
   "yacl3.config.tsunderify:config.suffixChance.desc": "The chance for a suffix to be added to the end of a message, set to 0 to disable.",
 

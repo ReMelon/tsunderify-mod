@@ -21,13 +21,23 @@ public class TsunderifyConfig {
 
     @SerialEntry
     @AutoGen(category = "tsunderify", group = "transformer")
+    @TickBox
+    public boolean modEnabled = true;
+
+    @SerialEntry
+    @AutoGen(category = "tsunderify", group = "transformer")
+    @TickBox
+    public boolean swearReplacement = true;
+
+    @SerialEntry
+    @AutoGen(category = "tsunderify", group = "transformer")
     @DoubleSlider(min = 0, max = 100, step = 1)
     public double stutterChance = 50;
 
     @SerialEntry
     @AutoGen(category = "tsunderify", group = "transformer")
     @DoubleSlider(min = 0, max = 100, step = 1)
-    public double suffixChance = 30;
+    public double suffixChance = 100;
 
     @SerialEntry
     @AutoGen(category = "tsunderify", group = "keys")

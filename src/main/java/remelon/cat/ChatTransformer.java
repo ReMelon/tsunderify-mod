@@ -48,20 +48,21 @@ public class ChatTransformer {
 
     public static String[] transformText(String text) {
         if (text == null) return null;
+        if (!TsunderifyConfig.CONFIG.instance().modEnabled) { return new String[]{text}; }
 
         String lowerTrim = text.toLowerCase().trim();
-        if (lowerTrim.equals("shut the fuck up") || lowerTrim.equals("sybau")) {
+        if (lowerTrim.equals("shut the fuck up") || lowerTrim.equals("sybau") && TsunderifyConfig.CONFIG.instance().swearReplacement) {
             String choice = RNG.nextBoolean() ? "shut up, baka!" : "shut up, b- baka!";
             return new String[]{matchCase(text, choice), "1"};
         }
 
-        if (lowerTrim.equals("kys")) {
+        if (lowerTrim.equals("kys") && TsunderifyConfig.CONFIG.instance().swearReplacement) {
             String choice = RNG.nextBoolean() ? "i- ily, baka!" : "ily, baka!";
             return new String[]{matchCase(text, choice), "1"};
         }
 
 
-        if (lowerTrim.equals("kill yourself")) {
+        if (lowerTrim.equals("kill yourself") && TsunderifyConfig.CONFIG.instance().swearReplacement) {
             String choice = RNG.nextBoolean() ? "i- i love you, baka!" : "i love you, baka!";
             return new String[]{matchCase(text, choice), "1"};
         }
@@ -95,7 +96,7 @@ public class ChatTransformer {
             String tok = tokens.get(i);
             String lt = tok.toLowerCase();
 
-            if (isWord(tok) && SWEARS.contains(lt)) {
+            if (isWord(tok) && SWEARS.contains(lt) && TsunderifyConfig.CONFIG.instance().swearReplacement) {
                 bakaMode = true;
 
                 int prevIdx = prevSigIndex(tokens, i - 1);
