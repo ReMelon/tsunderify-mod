@@ -16,8 +16,11 @@
   "icon": "assets/tsunderify/icon.png",
   "environment": "*",
   "entrypoints": {
-    "main": [
+    "client": [
       "remelon.cat.Tsunderify"
+    ],
+    "modmenu": [
+      "remelon.cat.config.ModMenuIntegration"
     ]
   },
   "mixins": [
