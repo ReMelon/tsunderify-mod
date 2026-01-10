@@ -6,16 +6,16 @@
   "yacl3.config.tsunderify:config.category.tsunderify": "Tsunderify Config",
   "yacl3.config.tsunderify:config.category.tsunderify.group.transformer": "Text Transformation",
 
-  "yacl3.config.tsunderify:config.suffixChance": "Suffix Chance",
-  "yacl3.config.tsunderify:config.suffixChance.desc": "The chance for a suffix to be appended (0=0%, 1=100%)",
+  "yacl3.config.tsunderify:config.suffixChance": "Suffix Chance (%)",
+  "yacl3.config.tsunderify:config.suffixChance.desc": "The chance for a suffix to be added to the end of a message, set to 0 to disable.",
 
-  "yacl3.config.tsunderify:config.stutterChance": "Stutter Chance",
-  "yacl3.config.tsunderify:config.stutterChance.desc": "The chance for stutter to be added (0=0%, 1=100%)",
+  "yacl3.config.tsunderify:config.stutterChance": "Stutter Chance (%)",
+  "yacl3.config.tsunderify:config.stutterChance.desc": "The chance for stutter to be added to the start of a message, set to 0 to disable.",
 
   "yacl3.config.tsunderify:config.category.tsunderify.group.keys": "Tsunderify Key",
   "yacl3.config.tsunderify:config.tsunifyOnEnter": "Tsunderify all messages",
-  "yacl3.config.tsunderify:config.tsunifyOnEnter.desc": "If enabled, messages you send using the enter key will be tsunderified\n\n§eWARNING: If Tsunderify all messages and the Tsunderify key are both used, the message may be edited twice!",
+  "yacl3.config.tsunderify:config.tsunifyOnEnter.desc": "If enabled, messages you send using the enter key will be tsunderified.\n\n§eWARNING: Tsunderify all messages may edit a message already tsunderified by the keybind!",
 
   "yacl3.config.tsunderify:config.specialKeySends": "Tsunderify key sends message",
-  "yacl3.config.tsunderify:config.specialKeySends.desc": "The tsunderify key will automatically send the message if enabled"
+  "yacl3.config.tsunderify:config.specialKeySends.desc": "The tsunderify key will automatically send the message if enabled."
 }

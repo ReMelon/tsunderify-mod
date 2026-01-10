@@ -21,13 +21,13 @@ public class TsunderifyConfig {
 
     @SerialEntry
     @AutoGen(category = "tsunderify", group = "transformer")
-    @DoubleSlider(min = 0.0, max = 1.0, step = 0.01)
-    public double stutterChance = 0.5;
+    @DoubleSlider(min = 0, max = 100, step = 1)
+    public double stutterChance = 50;
 
     @SerialEntry
     @AutoGen(category = "tsunderify", group = "transformer")
-    @DoubleSlider(min = 0.0, max = 1.0, step = 0.01)
-    public double suffixChance = 0.3;
+    @DoubleSlider(min = 0, max = 100, step = 1)
+    public double suffixChance = 30;
 
     @SerialEntry
     @AutoGen(category = "tsunderify", group = "keys")

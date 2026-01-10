@@ -10,9 +10,9 @@ public class ChatTransformer {
     private static final Pattern TOKEN_RE = Pattern.compile("[A-Za-z0-9]+(?:'[A-Za-z0-9]+)?|[_]|[^\\w\\s]|[\\s]+", Pattern.UNICODE_CHARACTER_CLASS);
     private static final Random RNG = new Random();
 
-    private static final Set<String> SWEARS = new HashSet<>(Arrays.asList("fucked", "fuck", "fucks", "fucking", "shit", "shits", "whore", "whores", "cunt", "cunts", "bitch", "bitches", "ass", "asses", "asshole", "assholes", "asshat", "asshats", "dumbass", "dumbasses", "fucker", "fuckers", "idiot", "jackass", "jackasses", "smartass", "smartasses", "pussy", "pussies", "bastard", "bastards", "dick", "dicks", "slut", "sluts", "motherfucker", "motherfuckers", "motherfucking", "omfg", "wtf", "lmfao"));
+    private static final Set<String> SWEARS = new HashSet<>(Arrays.asList("fucked", "fuck", "fucks", "fucking", "shit", "shits", "whore", "whores", "cunt", "cunts", "bitch", "bitches", "ass", "asses", "asshole", "assholes", "asshat", "asshats", "dumbass", "dumbasses", "fucker", "fuckers", "idiot", "jackass", "jackasses", "smartass", "smartasses", "pussy", "pussies", "bastard", "bastards", "dick", "dicks", "slut", "sluts", "motherfucker", "motherfuckers", "motherfucking", "omfg", "wtf", "lmfao", "fuckwad", "fuckass", "bitchass"));
 
-    private static final Set<String> ALWAYS_STICKY = new HashSet<>(Arrays.asList("whore", "whores", "cunt", "cunts", "bitch", "bitches", "asses", "asshole", "assholes", "asshat", "asshats", "fucker", "fuckers", "jackass", "jackasses", "smartasses", "pussies", "bastard", "bastards", "dick", "dicks", "slut", "sluts", "motherfucker", "motherfuckers"));
+    private static final Set<String> ALWAYS_STICKY = new HashSet<>(Arrays.asList("whore", "whores", "cunt", "cunts", "bitch", "bitches", "asses", "asshole", "assholes", "asshat", "asshats", "fucker", "fuckers", "jackass", "jackasses", "smartasses", "pussies", "bastard", "bastards", "dick", "dicks", "slut", "sluts", "motherfucker", "motherfuckers", "fuckface"));
 
     private static final Set<String> STICKY_HINT = new HashSet<>(Arrays.asList("hi", "hey", "hello", "you", "an", "all", "these", "those", "this", "that", "go", "yall", "y'all", "are", "the", "hate", "be", "like", "at", "silly", "stupid", "say", "be"));
 
@@ -24,7 +24,7 @@ public class ChatTransformer {
 
     static {
         List<String> repl1 = Collections.singletonList("I'm a stupid baka");
-        for (String trigger : Arrays.asList("this mod sucks", "stupid mod", "i hate this mod", "fuck you mod", "fuck this mod", "this mod sucks ass")) {
+        for (String trigger : Arrays.asList("this mod sucks", "stupid mod", "i hate this mod", "fuck you mod", "fuck this mod", "this mod sucks ass", "i hate remelon", "i hate souls", "i hate chensel", "i hate tsunify", "i hate tsunderify", "i hate tsunderifier", "garbage mod", "fuck you tsunderify", "fuck you tsunify", "bad mod", "trash mod", "never using this mod again", "im never using this mod again", "im uninstalling this mod", "im deleting this mod")) {
             REPLACE_TEXT_MAP.put(cleanKey(trigger), new ArrayList<>(repl1));
         }
 
@@ -52,6 +52,17 @@ public class ChatTransformer {
         String lowerTrim = text.toLowerCase().trim();
         if (lowerTrim.equals("shut the fuck up") || lowerTrim.equals("sybau")) {
             String choice = RNG.nextBoolean() ? "shut up, baka!" : "shut up, b- baka!";
+            return new String[]{matchCase(text, choice), "1"};
+        }
+
+        if (lowerTrim.equals("kys")) {
+            String choice = RNG.nextBoolean() ? "i- ily, baka!" : "ily, baka!";
+            return new String[]{matchCase(text, choice), "1"};
+        }
+
+
+        if (lowerTrim.equals("kill yourself")) {
+            String choice = RNG.nextBoolean() ? "i- i love you, baka!" : "i love you, baka!";
             return new String[]{matchCase(text, choice), "1"};
         }
 
@@ -184,7 +195,7 @@ public class ChatTransformer {
         }
 
         List<String> suffixes = getSuffixes();
-        double configuredChance = TsunderifyConfig.CONFIG.instance().suffixChance;
+        double configuredChance = (TsunderifyConfig.CONFIG.instance().suffixChance/100);
         boolean applySuffix = RNG.nextDouble() < configuredChance;
 
         if (applySuffix) {
@@ -204,7 +215,7 @@ public class ChatTransformer {
         for (String t : tokens) out.append(t);
         String result = out.toString();
 
-        if (RNG.nextDouble() < TsunderifyConfig.CONFIG.instance().stutterChance) {
+        if (RNG.nextDouble() < (TsunderifyConfig.CONFIG.instance().stutterChance/100)) {
             result = stutter(result);
         }
 
