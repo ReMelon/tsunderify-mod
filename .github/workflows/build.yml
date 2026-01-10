@@ -33,16 +33,31 @@ jobs:
       - name: Process built JARs
         run: |
           mkdir -p build/processed
-          for jar in build/libs/*/*.jar; do
-            if [[ ! "$jar" == *"dev"* ]]; then
+          shopt -s globstar nullglob
+          jars=(build/libs/**/*.jar build/libs/*.jar)
+          if [ "${#jars[@]}" -eq 0 ]; then
+            echo "No built jars found, skipping processing."
+          else
+            for jar in "${jars[@]}"; do
+              [ -f "$jar" ] || continue
+              if [[ "$jar" == *dev* ]]; then
+                echo "Skipping dev jar: $jar"
+                continue
+              fi
               filename=$(basename "$jar")
-              version=$(echo "$filename" | grep -o '1\.21\.[0-10]\+')
+              version=$(echo "$filename" | grep -oE '1\.21\.[0-9]+')
+              if [ -z "$version" ]; then
+                echo "Warning: version not found in $filename, using 'unknown'"
+                version="unknown"
+              fi
               new_name="tsunderify-${version}-fabric-nightly-${{ steps.commit-count.outputs.commit-number }}.jar"
               cp "$jar" "build/processed/$new_name"
-            fi
-          done
+              echo "Processed $jar -> build/processed/$new_name"
+            done
+          fi
       - name: Upload built mod JARs
         uses: actions/upload-artifact@v4.3.0
         with:
-          name: tsunferify-fabric-nightly-${{ steps.commit-count.outputs.commit-number }}
+          name: tsunderify-fabric-nightly-${{ steps.commit-count.outputs.commit-number }}
           path: build/processed/*.jar
+          if-no-files-found: ignore

@@ -29,6 +29,8 @@
   "accessWidener": "tsunderify.accesswidener",
   "depends": {
     "fabricloader": ">=0.17",
-    "minecraft": "${minecraft}"
+    "minecraft": "${minecraft}",
+    "fabric-api": "*",
+    "yet_another_config_lib_v3": "*"
   }
 }
