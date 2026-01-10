@@ -12,15 +12,14 @@ import remelon.cat.ChatTransformer;
 import remelon.cat.Tsunderify;
 import remelon.cat.config.TsunderifyConfig;
 
-/*? if >=1.21.10 {*/
-/* import net.minecraft.client.input.KeyInput; */
+/*? if >= 1.21.9 {*/
+import net.minecraft.client.input.KeyInput;
 /*?}*/
 
 @Mixin(TextFieldWidget.class)
 public class TextFieldWidgetMixin {
 
     //? if >= 1.21.9 {
-    /*
     @Inject(method = "keyPressed(Lnet/minecraft/client/input/KeyInput;)Z", at = @At("HEAD"), cancellable = true)
     private void onKeyPressed(KeyInput input, CallbackInfoReturnable<Boolean> cir) {
         int key = input.key();
@@ -66,7 +65,6 @@ public class TextFieldWidgetMixin {
             cir.setReturnValue(true);
         }
     }
-     */
     //?} else if <= 1.21.8 && >= 1.21.5 {
     /*
     @Inject(method = "keyPressed(Lnet/minecraft/client/input/KeyInput;)Z", at = @At("HEAD"), cancellable = true)
