@@ -14,7 +14,7 @@
   },
   "license": "CC0-1.0",
   "icon": "assets/tsunderify/icon.png",
-  "environment": "*",
+  "environment": "client",
   "entrypoints": {
     "client": [
       "remelon.cat.Tsunderify"
