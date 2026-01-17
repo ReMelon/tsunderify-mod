@@ -56,7 +56,7 @@ dependencies {
     modImplementation("dev.isxander:yet-another-config-lib:${property("deps.yacl")}")
     modImplementation("com.terraformersmc:modmenu:${property("deps.modmenu")}")
 
-    fapi("fabric-lifecycle-events-v1", "fabric-resource-loader-v0", "fabric-content-registries-v0")
+    fapi("fabric-key-binding-api-v1")
 }
 
 loom {

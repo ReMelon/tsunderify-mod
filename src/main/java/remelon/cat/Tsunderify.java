@@ -12,37 +12,19 @@ import remelon.cat.config.TsunderifyConfig;
 
 public class Tsunderify implements ClientModInitializer {
     public static final Logger LOGGER = LoggerFactory.getLogger("tsunderify");
-    public static final String VERSION = "0.1.0";
-    public static final String MINECRAFT = "1.21.10";
     public static KeyBinding keyBinding;
-    public static volatile boolean nextSendShouldTransform = false;
 
     public static void handleTick(MinecraftClient client) {
-        if (Tsunderify.keyBinding == null) return;
-        while (Tsunderify.keyBinding.wasPressed()) {
-            net.minecraft.client.gui.screen.Screen scr = client.currentScreen;
-            if (scr instanceof ChatScreen chat) {
+        if (keyBinding == null) return;
 
-                String current = ChatUtils.getChatScreenText(chat);
-                if (current == null) current = "";
+        while (keyBinding.wasPressed()) {
+            if (!(client.currentScreen instanceof ChatScreen)) return;
 
-                if (current.startsWith("/")) {
-                    return;
-                }
+            String current = ChatUtils.getChatScreenText((ChatScreen) client.currentScreen);
+            if (current == null || current.isEmpty()) return;
 
-                String[] out = ChatTransformer.transformText(current);
-                if (out == null) {
-                    return;
-                }
-                String transformed = out[0];
-
-                if (TsunderifyConfig.CONFIG.instance().specialKeySends) {
-                    if (client.player != null) {
-                        assert MinecraftClient.getInstance().player != null;
-                        MinecraftClient.getInstance().player.networkHandler.sendChatMessage(transformed);
-                        client.setScreen(null);
-                    }
-                }
+            if (!ChatUtils.handleTransform(client, current, TsunderifyConfig.CONFIG.instance().specialKeySends)) {
+                return;
             }
         }
     }
@@ -53,26 +35,48 @@ public class Tsunderify implements ClientModInitializer {
         keyBinding = Keybinds.initKeyBinding();
 
         ClientSendMessageEvents.MODIFY_CHAT.register((raw) -> {
-            if (raw == null) return raw;
-            if (raw.startsWith("/")) {
-                Tsunderify.nextSendShouldTransform = false;
+            if (ChatUtils.shouldSkipNextModify()) {
+                ChatUtils.setSkipNextModify(false);
                 return raw;
             }
-            if (!Tsunderify.nextSendShouldTransform) return raw;
-            Tsunderify.nextSendShouldTransform = false;
-            String[] out = ChatTransformer.transformText(raw);
-            if (out != null) {
-                Tsunderify.LOGGER.debug("Transformed outgoing chat: '{}' -> '{}'", raw, out[0]);
-                return out[0];
+
+            if (raw == null || raw.isEmpty()) return raw;
+
+            if (raw.startsWith("/")) {
+                try {
+                    String[] cmdOut = ChatUtils.transformCmd(raw);
+                    if (cmdOut != null) {
+                        ChatUtils.setTransformNext(false);
+                        return cmdOut[0];
+                    }
+                } catch (Throwable t) {
+                    LOGGER.error("Error while transforming command '{}': {}", raw, t.getMessage());
+                }
+                ChatUtils.setTransformNext(false);
+                return raw;
             }
+
+            if (!ChatUtils.shouldTransformNext()) return raw;
+
+            ChatUtils.setTransformNext(false);
+            try {
+                String[] out = ChatTransformer.transformText(raw);
+                if (out != null) {
+                    return out[0];
+                }
+            } catch (Throwable t) {
+                LOGGER.error("Error while transforming chat '{}': {}", raw, t.getMessage());
+            }
+
             return raw;
         });
+
 
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
             try {
                 handleTick(client);
             } catch (Throwable t) {
-                Tsunderify.LOGGER.error("Error in Tsunderify tick handler", t);
+                LOGGER.error("Error in Tsunderify tick handler", t);
             }
         });
     }

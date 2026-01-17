@@ -196,7 +196,7 @@ public class ChatTransformer {
         }
 
         List<String> suffixes = getSuffixes();
-        double configuredChance = (TsunderifyConfig.CONFIG.instance().suffixChance/100);
+        double configuredChance = (TsunderifyConfig.CONFIG.instance().suffixChance / 100);
         boolean applySuffix = RNG.nextDouble() < configuredChance;
 
         if (applySuffix) {
@@ -216,7 +216,7 @@ public class ChatTransformer {
         for (String t : tokens) out.append(t);
         String result = out.toString();
 
-        if (RNG.nextDouble() < (TsunderifyConfig.CONFIG.instance().stutterChance/100)) {
+        if (RNG.nextDouble() < (TsunderifyConfig.CONFIG.instance().stutterChance / 100)) {
             result = stutter(result);
         }
 
