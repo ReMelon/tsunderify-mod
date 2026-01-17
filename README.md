@@ -1,25 +1,32 @@
-# Stonecutter Fabric template
-## Setup
-1. Review the supported Minecraft versions in `settings.gradle.kts`.
-   For new entries, add `versions/.../gradle.properties` with the same keys as other versions.
-2. Change `mod.group`, `mod.id` and `mod.name` properties in `gradle.properties`.
-3. Rename `com.cat` package in `src/main/java`.
-4. Rename `src/main/resources/template.mixins.json` to use your mod's id.
-5. Review the `LICENSE` file. 
-   See the [license decision diagram](https://docs.codeberg.org/getting-started/licensing/#license-decision-diagram) for common options.
-6. Review `src/main/resources/fabric.mod.json` to have up-to-date properties.
+<hr>
 
-## Usage
-- Use `"Set active project to ..."` Gradle tasks to update the Minecraft version
-  available in `src/` classes.
-- Use `buildAndCollect` Gradle task to store mod releases in `build/libs/`.
-- Enable `mod-publish-plugin` in `stonecutter.gradle.kts` and `build.gradle.kts`
-  and the corresponding code blocks to publish releases to Modrinth and Curseforge.
-- Enable `maven-publish` in `build.gradle.kts` and the corresponding code block
-  to publish releases to a personal maven repository.
+![Tsunderify](https://cdn.modrinth.com/data/cached_images/763a24c7dc8dca9fa11472e5db505eb3c5b95a29.png)
 
-## Useful links
-- [Stonecutter beginner's guide](https://stonecutter.kikugie.dev/wiki/start/): *spoiler: you* ***need*** *to understand how it works!*
-- [Fabric Discord server](https://discord.gg/v6v4pMv): for mod development help.
-- [Stonecutter Discord server](https://discord.kikugie.dev/): for Stonecutter and Gradle help.
-- [How To Ask Questions - the guide](http://www.catb.org/esr/faqs/smart-questions.html): also in [video form](https://www.youtube.com/results?search_query=How+To+Ask+Questions+The+Smart+Way).
+<p align="center">
+  <a href="https://github.com/ReMelon/tsunderify-mod">
+    <img src="https://img.shields.io/badge/Source-blue?style=for-the-badge&color=f9c6e2" alt="Source">
+  </a>
+  <a href="https://github.com/ReMelon/tsunderify-mod/issues">
+    <img src="https://img.shields.io/badge/Issues-blue?style=for-the-badge&color=f9a6cf" alt="Issues">
+  </a>
+</p>
+
+<p align="center">
+  Tsunderify is a highly configurable mod that edits your chat messages to make you sound like a tsundere!
+  <br>
+   <small>(With emphasis on swear replacement)</small>
+</p>
+
+<h2>Features</h2>
+
+<ul>
+  <li>Replaces swears in your messages with intelligently placed bakas</li>
+  <li>Makes you stutter at the start of messages and appends tsundere affirmations to the end of messages, with a customizable probability</li>
+  <li>Allows you to set a keybind to modify the message, or to always modify everything you send in chat</li>
+  <li>Adapts to the case of your messages (if the entire message is in uppercase, the modified message will be too)</li>
+  <li>Turns you into a true tsundere!</li>
+</ul>
+
+<h2>Demo</h2>
+
+![Demo](https://cdn.modrinth.com/data/cached_images/e5e094548fa6d867107a2154c6a274cf29130289.gif)
