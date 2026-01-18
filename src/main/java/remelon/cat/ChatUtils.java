@@ -135,7 +135,7 @@ public final class ChatUtils {
         } else {
             ChatScreen screen = (ChatScreen) client.currentScreen;
             setChatScreenText(screen, transformed[0]);
-            setTransformNext(true);
+            setSkipNextModify(true);
         }
 
         return true;
