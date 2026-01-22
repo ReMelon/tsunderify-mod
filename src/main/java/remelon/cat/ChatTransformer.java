@@ -196,8 +196,8 @@ public class ChatTransformer {
         }
 
         List<String> suffixes = getSuffixes();
-        double configuredChance = (TsunderifyConfig.CONFIG.instance().suffixChance / 100);
-        boolean applySuffix = RNG.nextDouble() < configuredChance;
+        boolean applySuffix = RNG.nextDouble() < TsunderifyConfig.CONFIG.instance().suffixChance / 100.0;
+        boolean applyStutter = RNG.nextDouble() < (TsunderifyConfig.CONFIG.instance().stutterChance / 100.0);
 
         if (applySuffix) {
             while (!tokens.isEmpty()) {
@@ -208,15 +208,14 @@ public class ChatTransformer {
             String suf = suffixes.get(RNG.nextInt(suffixes.size()));
             String last = tokens.isEmpty() ? "" : tokens.get(tokens.size() - 1);
             tokens.add(matchCase(last, suf));
-        } else if (!bakaMode) {
+        } else if (!bakaMode && !applyStutter) {
             return null;
         }
 
         StringBuilder out = new StringBuilder();
         for (String t : tokens) out.append(t);
         String result = out.toString();
-
-        if (RNG.nextDouble() < (TsunderifyConfig.CONFIG.instance().stutterChance / 100)) {
+        if (applyStutter) {
             result = stutter(result);
         }
 
@@ -279,6 +278,6 @@ public class ChatTransformer {
     }
 
     private static List<String> getSuffixes() {
-        return Arrays.asList(", but it's not that I like you or anything!", ", hmph!", ". hmph!", ", but don't think I'm doing this for you!", ", tch...", ". tch...", ", I guess...", ", but don't think this makes us friends!");
+        return Arrays.asList(", but it's not that I like you or anything!", ", hmph!", ". hmph!", ", but don't think I'm doing this for you!", ", tch...", ". tch...", ", I guess...", ", but don't think this makes us friends!", ", geez...", ", but whatever...", ", but not like I care or anything!", ", but don't get the wrong idea!", ", dummy!", ", silly baka!");
     }
 }
