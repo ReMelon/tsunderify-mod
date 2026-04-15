@@ -3,24 +3,25 @@ package remelon.cat;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.message.v1.ClientSendMessageEvents;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.screen.ChatScreen;
-import net.minecraft.client.option.KeyBinding;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.screens.ChatScreen;
+import net.minecraft.client.KeyMapping;
+import net.minecraft.resources.Identifier;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import remelon.cat.config.TsunderifyConfig;
 
 public class Tsunderify implements ClientModInitializer {
     public static final Logger LOGGER = LoggerFactory.getLogger("tsunderify");
-    public static KeyBinding keyBinding;
+    public static KeyMapping keyBinding;
 
-    public static void handleTick(MinecraftClient client) {
+    public static void handleTick(Minecraft client) {
         if (keyBinding == null) return;
 
-        while (keyBinding.wasPressed()) {
-            if (!(client.currentScreen instanceof ChatScreen)) return;
+        while (keyBinding.consumeClick()) {
+            if (!(client.screen instanceof ChatScreen)) return;
 
-            String current = ChatUtils.getChatScreenText((ChatScreen) client.currentScreen);
+            String current = ChatUtils.getChatScreenText((ChatScreen) client.screen);
             if (current == null || current.isEmpty()) return;
 
             if (!ChatUtils.handleTransform(client, current, TsunderifyConfig.CONFIG.instance().specialKeySends)) {
@@ -80,4 +81,15 @@ public class Tsunderify implements ClientModInitializer {
             }
         });
     }
+
+    /**
+     * Adapts to the {@link Identifier} changes introduced in 1.21.
+     */
+    public static Identifier id(String namespace, String path) {
+        //? if <1.21 {
+        /*return new Identifier(namespace, path);
+         *///?} else
+        return Identifier.fromNamespaceAndPath(namespace, path);
+    }
+
 }

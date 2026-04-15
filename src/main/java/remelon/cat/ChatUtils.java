@@ -1,9 +1,9 @@
 package remelon.cat;
 
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.screen.ChatScreen;
-import net.minecraft.client.gui.widget.TextFieldWidget;
-import net.minecraft.client.network.ClientPlayerEntity;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.screens.ChatScreen;
+import net.minecraft.client.gui.components.EditBox;
+import net.minecraft.client.player.LocalPlayer;
 
 import java.util.List;
 
@@ -35,8 +35,8 @@ public final class ChatUtils {
             List<?> children = chat.children();
             if (children != null) {
                 for (Object child : children) {
-                    if (child instanceof TextFieldWidget) {
-                        return ((TextFieldWidget) child).getText();
+                    if (child instanceof EditBox) {
+                        return ((EditBox) child).getValue();
                     }
                 }
             }
@@ -53,8 +53,8 @@ public final class ChatUtils {
             List<?> children = chat.children();
             if (children != null) {
                 for (Object child : children) {
-                    if (child instanceof TextFieldWidget) {
-                        ((TextFieldWidget) child).setText(text);
+                    if (child instanceof EditBox) {
+                        ((EditBox) child).setValue(text);
                         return;
                     }
                 }
@@ -108,7 +108,7 @@ public final class ChatUtils {
         return null;
     }
 
-    public static boolean handleTransform(MinecraftClient client, String text, boolean send) {
+    public static boolean handleTransform(Minecraft client, String text, boolean send) {
         if (text == null || text.isEmpty()) return false;
 
         String[] transformed;
@@ -124,16 +124,16 @@ public final class ChatUtils {
         }
 
         if (send) {
-            ClientPlayerEntity player = client.player;
+            LocalPlayer player = client.player;
             if (player != null) {
                 setSkipNextModify(true);
-                player.networkHandler.sendChatMessage(transformed[0]);
-                setChatScreenText((ChatScreen) client.currentScreen, "");
+                player.connection.sendChat(transformed[0]);
+                setChatScreenText((ChatScreen) client.screen, "");
 
                 client.setScreen(null);
             }
         } else {
-            ChatScreen screen = (ChatScreen) client.currentScreen;
+            ChatScreen screen = (ChatScreen) client.screen;
             setChatScreenText(screen, transformed[0]);
             setSkipNextModify(true);
         }

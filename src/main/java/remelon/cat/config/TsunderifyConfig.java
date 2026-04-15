@@ -8,8 +8,8 @@ import dev.isxander.yacl3.config.v2.api.autogen.TickBox;
 import dev.isxander.yacl3.config.v2.api.serializer.GsonConfigSerializerBuilder;
 import dev.isxander.yacl3.platform.YACLPlatform;
 import net.fabricmc.loader.api.FabricLoader;
-import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.util.Identifier;
+import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.resources.Identifier;
 import org.jetbrains.annotations.Nullable;
 
 import java.nio.file.Path;
@@ -17,7 +17,7 @@ import java.nio.file.Path;
 public class TsunderifyConfig {
     public static final Path CONFIG_PATH = YACLPlatform.getConfigDir().resolve("tsunderify.json");
 
-    public static final ConfigClassHandler<TsunderifyConfig> CONFIG = ConfigClassHandler.createBuilder(TsunderifyConfig.class).id(Identifier.of("tsunderify", "config")).serializer(config -> GsonConfigSerializerBuilder.create(config).setPath(CONFIG_PATH).build()).build();
+    public static final ConfigClassHandler<TsunderifyConfig> CONFIG = ConfigClassHandler.createBuilder(TsunderifyConfig.class).id(Identifier.fromNamespaceAndPath("tsunderify", "config")).serializer(config -> GsonConfigSerializerBuilder.create(config).setPath(CONFIG_PATH).build()).build();
 
     @SerialEntry
     @AutoGen(category = "tsunderify", group = "transformer")
