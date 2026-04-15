@@ -3,7 +3,7 @@
   "key.category.tsunderify.chat": "Tsunderify",
   "key.tsunderify.transform": "Tsunderify Message",
 
-  "yacl3.config.tsunderify:config.category.tsunderify": "Tsunderify Config",
+  "yacl3.config.tsunderify:config.category.tsunderify": "General",
   "yacl3.config.tsunderify:config.category.tsunderify.group.transformer": "Text Transformation",
 
   "yacl3.config.tsunderify:config.modEnabled": "Mod Enabled",
@@ -18,9 +18,17 @@
   "yacl3.config.tsunderify:config.stutterChance.desc": "The chance for stutter to be added to the start of a message, set to 0 to disable.",
 
   "yacl3.config.tsunderify:config.category.tsunderify.group.keys": "Tsunderify Key",
-  "yacl3.config.tsunderify:config.tsunifyOnEnter": "Tsunderify all messages",
+  "yacl3.config.tsunderify:config.tsunifyOnEnter": "Tsunderify All Messages",
   "yacl3.config.tsunderify:config.tsunifyOnEnter.desc": "If enabled, messages you send using the enter key will be tsunderified.\n\n§eWARNING: Tsunderify all messages may edit a message already tsunderified by the keybind!",
 
-  "yacl3.config.tsunderify:config.specialKeySends": "Tsunderify key sends message",
-  "yacl3.config.tsunderify:config.specialKeySends.desc": "The tsunderify key will automatically send the message if enabled."
+  "yacl3.config.tsunderify:config.specialKeySends": "Tsunderify Key Sends Message",
+  "yacl3.config.tsunderify:config.specialKeySends.desc": "The tsunderify key will automatically send the message if enabled.",
+
+  "yacl3.config.tsunderify:config.transformOtherMods": "Transform Commands from Other Mods",
+  "yacl3.config.tsunderify:config.transformOtherMods.desc": "If enabled, commands sent by other mods will be transformed.",
+
+  "yacl3.config.tsunderify:config.category.tsunderify.group.advanced": "Advanced",
+
+  "yacl3.config.tsunderify:config.commands": "Commands Filters (Regex)",
+  "yacl3.config.tsunderify:config.commands.desc": "The portion of the message that matches any of these regexes will not be transformed."
 }

@@ -30,7 +30,7 @@ public class TextFieldWidgetMixin {
                 if (text != null && TsunderifyConfig.CONFIG.instance().tsunifyOnEnter) {
                     if (ChatUtils.handleTransform(client, text, true)) {
                         cir.setReturnValue(true);
-                        return;
+                           return;
                     }
                 }
             }

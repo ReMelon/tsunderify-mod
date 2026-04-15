@@ -1,15 +1,21 @@
 package remelon.cat;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.screens.ChatScreen;
 import net.minecraft.client.gui.components.EditBox;
+import net.minecraft.client.gui.screens.ChatScreen;
 import net.minecraft.client.player.LocalPlayer;
+import remelon.cat.config.TsunderifyConfig;
 
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import java.util.regex.PatternSyntaxException;
 
 public final class ChatUtils {
     private static volatile boolean skipNextModify = false;
     private static volatile boolean transformNext = false;
+    private static volatile boolean tsunderifySource = false;
+
     private ChatUtils() {
     }
 
@@ -27,6 +33,14 @@ public final class ChatUtils {
 
     public static void setTransformNext(boolean v) {
         transformNext = v;
+    }
+
+    public static boolean isTsunderifySource() {
+        return tsunderifySource;
+    }
+
+    public static void setTsunderifySource(boolean v) {
+        tsunderifySource = v;
     }
 
     public static String getChatScreenText(ChatScreen chat) {
@@ -82,26 +96,25 @@ public final class ChatUtils {
     private static String[] extractCmdPrefix(String text) {
         if (!text.startsWith("/")) return null;
 
-        String[] noUser = new String[]{"/r ", "/reply ", "/me ", "/pc ", "/pchat ", "/party chat ", "/gc ", "/gchat ", "/guild chat ", "/oc ", "/ochat ", "/officer chat ", "/cc ", "/cchat ", "/coopchat ", "/ac "};
-        for (String p : noUser) {
-            if (text.startsWith(p)) {
-                String content = text.substring(p.length());
-                if (content.isEmpty()) return null;
-                return new String[]{p, content};
-            }
-        }
+        TsunderifyConfig config = TsunderifyConfig.CONFIG.instance();
 
-        String[] withUser = new String[]{"/msg ", "/w ", "/message ", "/whisper "};
-        for (String p : withUser) {
-            if (text.startsWith(p)) {
-                int start = p.length();
-                int space = text.indexOf(' ', start);
-                if (space == -1) return null;
-                String username = text.substring(start, space);
-                if (username.contains(" ")) return null;
-                String content = text.substring(space + 1);
+        for (String raw : config.commands) {
+            if (raw == null || raw.isEmpty()) continue;
+
+            try {
+                Pattern pattern = Pattern.compile(raw);
+                Matcher matcher = pattern.matcher(text);
+                if (!matcher.lookingAt()) continue;
+
+                int prefixEnd = matcher.end();
+                if (prefixEnd <= 0 || prefixEnd > text.length()) continue;
+
+                String content = text.substring(prefixEnd);
                 if (content.isEmpty()) return null;
-                return new String[]{p + username + " ", content};
+
+                return new String[]{text.substring(0, prefixEnd), content};
+            } catch (PatternSyntaxException e) {
+                Tsunderify.LOGGER.error("Invalid command regex '{}': {}", raw, e.getMessage());
             }
         }
 
@@ -127,9 +140,9 @@ public final class ChatUtils {
             LocalPlayer player = client.player;
             if (player != null) {
                 setSkipNextModify(true);
+                setTsunderifySource(true);
                 player.connection.sendChat(transformed[0]);
                 setChatScreenText((ChatScreen) client.screen, "");
-
                 client.setScreen(null);
             }
         } else {

@@ -43,7 +43,16 @@ public class Tsunderify implements ClientModInitializer {
 
             if (raw == null || raw.isEmpty()) return raw;
 
+            boolean fromPlayer = ChatUtils.isTsunderifySource();
+            ChatUtils.setTsunderifySource(false);
+
+            boolean allowTransform = fromPlayer || TsunderifyConfig.CONFIG.instance().transformOtherMods;
+
             if (raw.startsWith("/")) {
+                if (!allowTransform) {
+                    ChatUtils.setTransformNext(false);
+                    return raw;
+                }
                 try {
                     String[] cmdOut = ChatUtils.transformCmd(raw);
                     if (cmdOut != null) {
@@ -57,7 +66,7 @@ public class Tsunderify implements ClientModInitializer {
                 return raw;
             }
 
-            if (!ChatUtils.shouldTransformNext()) return raw;
+            if (!ChatUtils.shouldTransformNext() && !allowTransform) return raw;
 
             ChatUtils.setTransformNext(false);
             try {
