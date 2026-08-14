@@ -1,7 +1,13 @@
+import me.modmuss50.mpp.ReleaseType
+
 plugins {
     // This plugin applies the correct loom variant based on the Minecraft version
     id("dev.kikugie.loom-back-compat")
+    id("me.modmuss50.mod-publish-plugin") version "2.2.0"
 }
+
+val compatibleVersions: List<String> = sc.properties.rawOrNull("mod", "mc_targets")
+    ?.asList().orEmpty().map { it.toString() }
 
 version = "${property("mod.version")}+${sc.current.version}"
 base.archivesName = property("mod.id") as String
@@ -14,10 +20,21 @@ val requiredJava: JavaVersion = when {
     else -> JavaVersion.VERSION_1_8
 }
 
-val compatibleVersions: List<String> = sc.properties.rawOrNull("mod", "mc_releases")
-    ?.asList().orEmpty().map { it.toString() }
+val versionTypeRaw = property("mod.version_type") as String
+val versionType: ReleaseType = when {
+    versionTypeRaw.lowercase() == "stable" -> ReleaseType.STABLE
+    versionTypeRaw.lowercase() == "beta" -> ReleaseType.BETA
+    else -> ReleaseType.ALPHA
+}
 
+val modId = property("mod.id") as String
+val modVersion = property("mod.version") as String
 
+loomx.modJar.configure {
+    archiveFileName.set(
+        "$modId-$modVersion+mc${compatibleVersions.first()}-${compatibleVersions.last()}.jar"
+    )
+}
 
 repositories {
     /**
@@ -122,6 +139,55 @@ tasks {
         from(loomx.modJar.flatMap { it.archiveFile }, loomx.modSourcesJar.flatMap { it.archiveFile })
         into(rootProject.layout.buildDirectory.file("libs/${project.property("mod.version")}"))
     }
+}
+
+// Publishes builds to Modrinth, Curseforge and GitHub with changelog from the CHANGELOG.md file
+publishMods {
+    file = loomx.modJar.map { it.archiveFile.get() }
+    displayName = "${property("mod.name")} ${property("mod.version")} for ${compatibleVersions.first()}-${compatibleVersions.last()}"
+    version = property("mod.version") as String
+    changelog = rootProject.file("CHANGELOG.md").readText()
+    type = versionType
+    modLoaders.add("fabric")
+
+    dryRun = property("publish.dry_run") == "true"
+
+    if (dryRun.get() || env.MODRINTH_TOKEN.orElse("") != "") {
+        modrinth {
+            projectId = property("publish.modrinth") as String
+            accessToken = providers.environmentVariable("MODRINTH_TOKEN")
+            accessToken = env.MODRINTH_TOKEN.orElse("")
+            minecraftVersions.addAll(compatibleVersions)
+
+            requires("fabric-api", "yacl", "modmenu")
+
+            announcementTitle = "Modrinth"
+        }
+    }
+
+    github {
+        accessToken = env.GITHUB_TOKEN.orElse("")
+        parent(rootProject.tasks.named("publishGithub"))
+        announcementTitle = "GitHub"
+    }
+    /*
+    if (dryRun.get() || env.CURSEFORGE_TOKEN.orElse("") != "") {
+        curseforge {
+            changelog = changelogSimple
+            projectId = property("publish.curseforge_id") as String
+            projectSlug = property("publish.curseforge_slug") as String
+            accessToken = env.CURSEFORGE_TOKEN.orElse("")
+            minecraftVersions.addAll(property("mc_targets").toString().split(' '))
+
+            requires("fabric-api", "yacl")
+            optional("modmenu")
+
+            announcementTitle = "CurseForge"
+        }
+    }
+
+
+     */
 }
 
 /*
