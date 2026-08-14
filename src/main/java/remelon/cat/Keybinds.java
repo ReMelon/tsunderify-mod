@@ -1,6 +1,9 @@
 package remelon.cat;
-
-import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
+//? if <= 1.21.11 {
+ import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
+//?} else if >= 26.1 {
+/*import net.fabricmc.fabric.api.client.keymapping.v1.KeyMappingHelper;
+*///?}
 import net.minecraft.client.KeyMapping;
 import com.mojang.blaze3d.platform.InputConstants;
 import net.minecraft.resources.Identifier;
@@ -17,7 +20,12 @@ public final class Keybinds {
         /*KeyMapping kb = new KeyMapping("key.tsunderify.transform", InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_RIGHT_SHIFT, "key.category.tsunderify.chat");
         *///?}
 
-        KeyBindingHelper.registerKeyBinding(kb);
+        //? if <= 1.21.11 {
+         KeyBindingHelper.registerKeyBinding(kb);
+         //?} else if >= 26.1 {
+        /*KeyMappingHelper.registerKeyMapping(kb);
+        *///?}
+
         return kb;
     }
 }

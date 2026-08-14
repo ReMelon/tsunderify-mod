@@ -25,8 +25,16 @@ public class TextFieldWidgetMixin {
         int key = input.key();
         if (key == GLFW.GLFW_KEY_ENTER || key == GLFW.GLFW_KEY_KP_ENTER) {
             Minecraft client = Minecraft.getInstance();
+            //? if <= 26.1.2 {
             if (client.screen instanceof ChatScreen) {
+             //?} else {
+            /*if (client.gui.screen() instanceof ChatScreen) {
+            *///?}
+                //? if <= 26.1.2 {
                 String text = ChatUtils.getChatScreenText((ChatScreen) client.screen);
+                //?} else {
+                /*String text = ChatUtils.getChatScreenText((ChatScreen) client.gui.screen());
+                *///?}
                 if (text != null && TsunderifyConfig.CONFIG.instance().tsunifyOnEnter) {
                     if (ChatUtils.handleTransform(client, text, true)) {
                         cir.setReturnValue(true);
@@ -40,9 +48,18 @@ public class TextFieldWidgetMixin {
         if (Tsunderify.keyBinding == null || !Tsunderify.keyBinding.matches(input)) return;
 
         Minecraft client = Minecraft.getInstance();
+        //? if <= 26.1.2 {
         if (!(client.screen instanceof ChatScreen)) return;
+         //?} else {
+        /*if (!(client.gui.screen() instanceof ChatScreen)) return;
+        *///?}
 
+
+        //? if <= 26.1.2 {
         String text = ChatUtils.getChatScreenText((ChatScreen) client.screen);
+         //?} else {
+        /*String text = ChatUtils.getChatScreenText((ChatScreen) client.gui.screen());
+        *///?}
         if (text == null || text.isEmpty()) return;
 
         boolean shouldSend = TsunderifyConfig.CONFIG.instance().specialKeySends;

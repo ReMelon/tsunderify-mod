@@ -19,9 +19,15 @@ public class Tsunderify implements ClientModInitializer {
         if (keyBinding == null) return;
 
         while (keyBinding.consumeClick()) {
+            //? if <= 26.1.2 {
             if (!(client.screen instanceof ChatScreen)) return;
-
             String current = ChatUtils.getChatScreenText((ChatScreen) client.screen);
+             //?} else {
+            /*if (!(client.gui.screen() instanceof ChatScreen)) return;
+            String current = ChatUtils.getChatScreenText((ChatScreen) client.gui.screen());
+            *///?}
+
+
             if (current == null || current.isEmpty()) return;
 
             if (!ChatUtils.handleTransform(client, current, TsunderifyConfig.CONFIG.instance().specialKeySends)) {

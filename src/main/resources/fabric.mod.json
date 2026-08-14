@@ -26,7 +26,6 @@
   "mixins": [
     "tsunderify.mixins.json"
   ],
-  "accessWidener": "tsunderify.accesswidener",
   "depends": {
     "fabricloader": ">=0.17",
     "minecraft": "${minecraft}",

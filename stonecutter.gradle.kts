@@ -1,7 +1,5 @@
 plugins {
     id("dev.kikugie.stonecutter")
-    id("net.fabricmc.fabric-loom-remap") version "1.15-SNAPSHOT" apply false
-    // id("me.modmuss50.mod-publish-plugin") version "1.0.+" apply false
 }
 
 stonecutter active "1.21.11"
@@ -18,12 +16,15 @@ stonecutter tasks {
 stonecutter parameters {
     swaps["mod_version"] = "\"${property("mod.version")}\";"
     swaps["minecraft"] = "\"${node.metadata.version}\";"
-    constants["release"] = property("mod.id") != "template"
+    constants["release"] = property("mod.id") != "tsunderify"
     dependencies["fapi"] = node.project.property("deps.fabric_api") as String
-
     replacements {
         string(current.parsed >= "1.21.11") {
             replace("ResourceLocation", "Identifier")
+        }
+
+        string(current.parsed >= "26.1") {
+            replace("classTweaker v2 named", "classTweaker v2 official")
         }
     }
 }

@@ -142,11 +142,21 @@ public final class ChatUtils {
                 setSkipNextModify(true);
                 setTsunderifySource(true);
                 player.connection.sendChat(transformed[0]);
+                //? if <= 26.1.2 {
                 setChatScreenText((ChatScreen) client.screen, "");
                 client.setScreen(null);
             }
         } else {
             ChatScreen screen = (ChatScreen) client.screen;
+        //?} else {
+                /*setChatScreenText((ChatScreen) client.gui.screen(), "");
+                client.gui.setScreen(null);
+
+            }
+        } else {
+            ChatScreen screen = (ChatScreen) client.gui.screen();
+        *///?}
+
             setChatScreenText(screen, transformed[0]);
             setSkipNextModify(true);
         }
