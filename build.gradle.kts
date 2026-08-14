@@ -9,6 +9,11 @@ plugins {
 val compatibleVersions: List<String> = sc.properties.rawOrNull("mod", "mc_targets")
     ?.asList().orEmpty().map { it.toString() }
 
+val compatibleRange = if (compatibleVersions.size == 1) {
+    compatibleVersions.single()
+} else {
+    "${compatibleVersions.first()}-${compatibleVersions.last()}"
+}
 version = "${property("mod.version")}+${sc.current.version}"
 base.archivesName = property("mod.id") as String
 
@@ -31,9 +36,7 @@ val modId = property("mod.id") as String
 val modVersion = property("mod.version") as String
 
 loomx.modJar.configure {
-    archiveFileName.set(
-        "$modId-$modVersion+mc${compatibleVersions.first()}-${compatibleVersions.last()}.jar"
-    )
+    archiveFileName.set("$modId-$modVersion+$compatibleRange.jar")
 }
 
 repositories {
@@ -144,7 +147,7 @@ tasks {
 // Publishes builds to Modrinth, Curseforge and GitHub with changelog from the CHANGELOG.md file
 publishMods {
     file = loomx.modJar.map { it.archiveFile.get() }
-    displayName = "${property("mod.name")} ${property("mod.version")} for ${compatibleVersions.first()}-${compatibleVersions.last()}"
+    displayName = "${property("mod.name")} ${property("mod.version")} for $compatibleRange"
     version = property("mod.version") as String
     changelog = rootProject.file("CHANGELOG.md").readText()
     type = versionType
