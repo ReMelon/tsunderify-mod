@@ -84,6 +84,8 @@ dependencies {
         fapi("fabric-key-binding-api-v1")
     } else {
         fapi("fabric-key-mapping-api-v1")
+        fapi("fabric-message-api-v1")
+        fapi("fabric-lifecycle-events-v1")
     }
 }
 

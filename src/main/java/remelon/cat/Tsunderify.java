@@ -20,12 +20,12 @@ public class Tsunderify implements ClientModInitializer {
 
         while (keyBinding.consumeClick()) {
             //? if <= 26.1.2 {
-            if (!(client.screen instanceof ChatScreen)) return;
+            /*if (!(client.screen instanceof ChatScreen)) return;
             String current = ChatUtils.getChatScreenText((ChatScreen) client.screen);
-             //?} else {
-            /*if (!(client.gui.screen() instanceof ChatScreen)) return;
+             *///?} else {
+            if (!(client.gui.screen() instanceof ChatScreen)) return;
             String current = ChatUtils.getChatScreenText((ChatScreen) client.gui.screen());
-            *///?}
+            //?}
 
 
             if (current == null || current.isEmpty()) return;

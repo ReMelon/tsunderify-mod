@@ -1,7 +1,7 @@
 mod.id = "tsunderify"
 mod.name = "Tsunderify"
 mod.group = "remelon.cat"
-mod.version = "1.4.0"
+mod.version = "1.5.0"
 mod.version_type = "stable"
 
 deps.fabric_loader = "0.18.4"
@@ -55,3 +55,10 @@ mod.mc_targets = ["26.2"]
 deps.yacl="3.9.4+26.2-fabric"
 deps.modmenu="20.0.0"
 deps.fabric_api = "0.155.2+26.2"
+
+["26.3.x"]
+mod.mc_compat = "~26.3"
+mod.mc_targets = ["26.3"]
+deps.yacl="3.9.7+26.3-fabric"
+deps.modmenu="21.0.0"
+deps.fabric_api = "0.165.0+26.3"

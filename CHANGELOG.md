@@ -1,2 +1,2 @@
-### Tsunderify 1.4.0 
-- Updated to 26.1.x and 26.2
+### Tsunderify 1.5.0 
+- Updated to 26.4

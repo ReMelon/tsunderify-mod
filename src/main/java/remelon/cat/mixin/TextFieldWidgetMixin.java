@@ -3,7 +3,7 @@ package remelon.cat.mixin;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.gui.screens.ChatScreen;
-import org.lwjgl.glfw.GLFW;
+import com.mojang.blaze3d.platform.InputConstants;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -23,18 +23,18 @@ public class TextFieldWidgetMixin {
     @Inject(method = "keyPressed(Lnet/minecraft/client/input/KeyEvent;)Z", at = @At("HEAD"), cancellable = true)
     private void onKeyPressed(KeyEvent input, CallbackInfoReturnable<Boolean> cir) {
         int key = input.key();
-        if (key == GLFW.GLFW_KEY_ENTER || key == GLFW.GLFW_KEY_KP_ENTER) {
+        if (key == InputConstants.KEY_RETURN || key == InputConstants.KEY_NUMPADENTER) {
             Minecraft client = Minecraft.getInstance();
             //? if <= 26.1.2 {
-            if (client.screen instanceof ChatScreen) {
-             //?} else {
-            /*if (client.gui.screen() instanceof ChatScreen) {
-            *///?}
+            /*if (client.screen instanceof ChatScreen) {
+             *///?} else {
+            if (client.gui.screen() instanceof ChatScreen) {
+            //?}
                 //? if <= 26.1.2 {
-                String text = ChatUtils.getChatScreenText((ChatScreen) client.screen);
-                //?} else {
-                /*String text = ChatUtils.getChatScreenText((ChatScreen) client.gui.screen());
-                *///?}
+                /*String text = ChatUtils.getChatScreenText((ChatScreen) client.screen);
+                *///?} else {
+                String text = ChatUtils.getChatScreenText((ChatScreen) client.gui.screen());
+                //?}
                 if (text != null && TsunderifyConfig.CONFIG.instance().tsunifyOnEnter) {
                     if (ChatUtils.handleTransform(client, text, true)) {
                         cir.setReturnValue(true);
@@ -49,17 +49,17 @@ public class TextFieldWidgetMixin {
 
         Minecraft client = Minecraft.getInstance();
         //? if <= 26.1.2 {
-        if (!(client.screen instanceof ChatScreen)) return;
-         //?} else {
-        /*if (!(client.gui.screen() instanceof ChatScreen)) return;
-        *///?}
+        /*if (!(client.screen instanceof ChatScreen)) return;
+         *///?} else {
+        if (!(client.gui.screen() instanceof ChatScreen)) return;
+        //?}
 
 
         //? if <= 26.1.2 {
-        String text = ChatUtils.getChatScreenText((ChatScreen) client.screen);
-         //?} else {
-        /*String text = ChatUtils.getChatScreenText((ChatScreen) client.gui.screen());
-        *///?}
+        /*String text = ChatUtils.getChatScreenText((ChatScreen) client.screen);
+         *///?} else {
+        String text = ChatUtils.getChatScreenText((ChatScreen) client.gui.screen());
+        //?}
         if (text == null || text.isEmpty()) return;
 
         boolean shouldSend = TsunderifyConfig.CONFIG.instance().specialKeySends;
@@ -71,7 +71,7 @@ public class TextFieldWidgetMixin {
     /*
     @Inject(method = "keyPressed(III)Z", at = @At("HEAD"), cancellable = true)
     private void onKeyPressed(int key, int scanCode, int modifiers, CallbackInfoReturnable<Boolean> cir) {
-        if (key == GLFW.GLFW_KEY_ENTER || key == GLFW.GLFW_KEY_KP_ENTER) {
+        if (key == InputConstants.KEY_RETURN || key == InputConstants.KEY_NUMPADENTER) {
             Minecraft client = Minecraft.getInstance();
             if (client.screen instanceof ChatScreen) {
                 String text = ChatUtils.getChatScreenText((ChatScreen) client.screen);
@@ -102,7 +102,7 @@ public class TextFieldWidgetMixin {
     
     /*@Inject(method = "keyPressed(III)Z", at = @At("HEAD"), cancellable = true)
     private void onKeyPressed(int key, int scanCode, int modifiers, CallbackInfoReturnable<Boolean> cir) {
-        if (key == GLFW.GLFW_KEY_ENTER || key == GLFW.GLFW_KEY_KP_ENTER) {
+        if (key == InputConstants.KEY_RETURN || key == InputConstants.KEY_NUMPADENTER) {
             Minecraft client = Minecraft.getInstance();
             if (client.screen instanceof ChatScreen) {
                 String text = ChatUtils.getChatScreenText((ChatScreen) client.screen);
